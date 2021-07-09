@@ -60,6 +60,9 @@ rules:
   object-property-newline:
     - error
     - allowAllPropertiesOnSameLine: true
+  prefer-const:
+    - off # TODO re-enable
+    # - destructuring: "all"
   quote-props:
     - error
     - as-needed
@@ -73,9 +76,10 @@ rules:
   '@typescript-eslint/no-empty-function': off
   '@typescript-eslint/no-var-requires': off
   '@typescript-eslint/ban-ts-comment': off
+  '@typescript-eslint/no-explicit-any': off # TODO turn this back on
 overrides:
   - files:
-      - lib/duration.mjs
+      - lib/duration.ts
       - lib/init.js
       - test/all.mjs
       - test/exhaust.mjs
