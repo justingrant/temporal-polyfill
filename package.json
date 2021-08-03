@@ -8,7 +8,7 @@
   "browser": "dist/index.umd.js",
   "types": "index.d.ts",
   "scripts": {
-    "test": "tsc && (cd dist/esm && for f in *.js; do      mv -- \"$f\" \"${f%.js}.mjs\"; done) && node --no-warnings --experimental-modules --experimental-specifier-resolution=node --icu-data-dir node_modules/full-icu --loader ./test/resolve.source.mjs ./test/all.mjs",
+    "test": "tsc -p tsconfig.test.json && mkdir -p testrun && (cd testrun && for f in *.js; do      mv -- \"$f\" \"${f%.js}.mjs\"; done) && node --no-warnings --experimental-modules --experimental-specifier-resolution=node --icu-data-dir node_modules/full-icu --loader ./test/resolve.source.mjs ./test/all.mjs",
     "build": "rollup -c rollup.config.js",
     "prepublishOnly": "npm run build",
     "playground": "npm run build && node --experimental-modules --no-warnings --icu-data-dir node_modules/full-icu -r ./lib/init.js",
