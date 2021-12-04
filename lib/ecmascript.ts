@@ -4681,18 +4681,19 @@ export function RoundDuration(
   let nanoseconds = bigInt(nanosecondsParam);
   const TemporalDuration = GetIntrinsic('%Temporal.Duration%');
   let calendar, zdtRelative;
-  // if it's a ZDT, it will be reassigned to a PDT below.
-  let relativeTo: Parameters<typeof MoveRelativeDate>[1] = relativeToParam;
+  let relativeTo: Temporal.PlainDate | undefined;
   if (relativeToParam) {
-    if (IsTemporalZonedDateTime(relativeTo)) {
-      zdtRelative = relativeTo;
+    if (IsTemporalZonedDateTime(relativeToParam)) {
+      zdtRelative = relativeToParam;
       const pdt = BuiltinTimeZoneGetPlainDateTimeFor(
-        GetSlot(relativeTo, TIME_ZONE),
-        GetSlot(relativeTo, INSTANT),
-        GetSlot(relativeTo, CALENDAR)
+        GetSlot(relativeToParam, TIME_ZONE),
+        GetSlot(relativeToParam, INSTANT),
+        GetSlot(relativeToParam, CALENDAR)
       );
       relativeTo = TemporalDateTimeToDate(pdt);
-    } else if (!IsTemporalDate(relativeTo)) {
+    } else if (IsTemporalDate(relativeToParam)) {
+      relativeTo = relativeToParam;
+    } else {
       throw new TypeError('starting point must be PlainDate or ZonedDateTime');
     }
     calendar = GetSlot(relativeTo, CALENDAR);
